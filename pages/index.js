@@ -1,12 +1,30 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link'
-import styles from '../styles/Home.module.css'
-
+import { useState } from "react";
 export default function Home() {
+  const [userInput, setUserInput] = useState("");
+  const [todolist, setTodolist] = useState([]);
+  const handleInput = (e) => {
+    e.preventDefault();
+    setUserInput(e.target.value);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setTodolist([userInput, ...todolist]);
+    setUserInput("")
+  };
   return (
-    <div className={styles.container}>
-      <Link href="/top">reza</Link>
+    <div>
+      <h3>Next js todo List</h3>
+      <from>
+        <input type="text" value={userInput} onChange={handleInput} />
+        <button onClick={handleSubmit}>submit</button>
+      </from>
+      <ul>
+        {todolist.length >= 1
+          ? todolist.map((todo, idx) => {
+              return <li key={idx}>{todo}</li>;
+            })
+          : "Enter a todo item"}
+      </ul>
     </div>
-  )
+  );
 }
